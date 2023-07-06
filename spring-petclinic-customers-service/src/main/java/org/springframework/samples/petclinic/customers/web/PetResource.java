@@ -50,7 +50,7 @@ class PetResource {
     @ResponseStatus(HttpStatus.CREATED)
     public Pet processCreationForm(
         @RequestBody PetRequest petRequest,
-        @PathVariable("ownerId") int ownerId) {
+        @PathVariable int ownerId) {
 
         final Pet pet = new Pet();
         final Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
@@ -81,14 +81,14 @@ class PetResource {
     }
 
     @GetMapping("owners/*/pets/{petId}")
-    public PetDetails findPet(@PathVariable("petId") int petId) {
+    public PetDetails findPet(@PathVariable int petId) {
         return new PetDetails(findPetById(petId));
     }
 
 
     private Pet findPetById(int petId) {
         Optional<Pet> pet = petRepository.findById(petId);
-        if (!pet.isPresent()) {
+        if (pet.isEmpty()) {
             throw new ResourceNotFoundException("Pet "+petId+" not found");
         }
         return pet.get();

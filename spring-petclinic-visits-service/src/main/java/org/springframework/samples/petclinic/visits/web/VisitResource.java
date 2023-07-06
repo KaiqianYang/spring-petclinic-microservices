@@ -16,7 +16,7 @@
 package org.springframework.samples.petclinic.visits.web;
 
 import java.util.List;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ class VisitResource {
     @ResponseStatus(HttpStatus.CREATED)
    public Visit create(
         @Valid @RequestBody Visit visit,
-        @PathVariable("petId") int petId) {
+        @PathVariable int petId) {
 
         visit.setPetId(petId);
         log.info("Saving visit {}", visit);
@@ -60,7 +60,7 @@ class VisitResource {
     }
 
     @GetMapping("owners/*/pets/{petId}/visits")
-   public List<Visit> visits(@PathVariable("petId") int petId) {
+   public List<Visit> visits(@PathVariable int petId) {
         return visitRepository.findByPetId(petId);
     }
 
